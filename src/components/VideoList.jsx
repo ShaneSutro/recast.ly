@@ -1,5 +1,32 @@
-var VideoList = () => (
+import VideoListEntry from './VideoListEntry.js';
+
+// class VideoList extends React.Component {
+//   constructor (props) {
+//     super(props);
+
+//     this.state = {
+//       value: props.initialValue,
+//     };
+//   }
+
+//   render() {
+//     console.log(this);
+//     return (
+//       <div className="video-list">
+//         <div><h5><em>videoListEntry</em> view goes here</h5></div>
+//         <div><h5><em>videoListEntry</em> view goes here</h5></div>
+//         <div><h5><em>videoListEntry</em> view goes here</h5></div>
+//         <div><h5><em>videoListEntry</em> view goes here</h5></div>
+//         <div><h5><em>videoListEntry</em> view goes here</h5></div>
+//       </div>
+//     );
+//   }
+// }
+
+
+var VideoList = (props) => (
   <div className="video-list">
+    <VideoListEntry videos={props.videos[0]}/>
     <div><h5><em>videoListEntry</em> view goes here</h5></div>
     <div><h5><em>videoListEntry</em> view goes here</h5></div>
     <div><h5><em>videoListEntry</em> view goes here</h5></div>
