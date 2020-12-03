@@ -5,25 +5,63 @@ import exampleVideoData from '../data/exampleVideoData.js';
 
 
 
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      videos: exampleVideoData,
+      currentVideo: exampleVideoData[0]
+    };
+  }
+
+  chooseVideo(video) {
+    this.setState((state) => ({
+      currentVideo: video,
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <nav className="navbar">
+          <div className="col-md-6 offset-md-3">
+            <Search/>
+          </div>
+        </nav>
+        <div className="row">
+          <div className="col-md-7">
+            <VideoPlayer video={this.state.currentVideo}/>
+          </div>
+          <div className="col-md-5">
+            <VideoList videos={this.state.videos} chooseVideo={this.chooseVideo.bind(this)}/>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 
-var App = () => (
-  <div>
-    <nav className="navbar">
-      <div className="col-md-6 offset-md-3">
-        <Search/>
-      </div>
-    </nav>
-    <div className="row">
-      <div className="col-md-7">
-        <VideoPlayer video={exampleVideoData[0]}/>
-      </div>
-      <div className="col-md-5">
-        <VideoList videos={exampleVideoData}/>
-      </div>
-    </div>
-  </div>
-);
+
+
+// var App = () => (
+//   <div>
+//     <nav className="navbar">
+//       <div className="col-md-6 offset-md-3">
+//         <Search/>
+//       </div>
+//     </nav>
+//     <div className="row">
+//       <div className="col-md-7">
+//         <VideoPlayer video={exampleVideoData[0]}/>
+//       </div>
+//       <div className="col-md-5">
+//         <VideoList videos={exampleVideoData}/>
+//       </div>
+//     </div>
+//   </div>
+// );
 
 //
 // In the ES6 spec, files are "modules" and do not share a top-level scope
