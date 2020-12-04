@@ -5,11 +5,10 @@ import {beginningState} from '../data/exampleVideoData.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
 
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
-
+    this.timedOut = null;
     this.state = {
       videos: beginningState,
       currentVideo: beginningState[0]
@@ -22,12 +21,36 @@ class App extends React.Component {
     }));
   }
 
+  searchForVideos(queryString) {
+    console.warn(queryString);
+    var options = {
+      query: queryString,
+      max: 5,
+      key: YOUTUBE_API_KEY
+    };
+    // this.props.searchYouTube(options, (videoData) => {
+    //   this.setState((state) => ({
+    //     videos: videoData,
+    //     currentVideo: videoData[0],
+    //   }));
+    // });
+    clearTimeout(timedOut);
+    timedOut = setTimeout(() => {
+      this.props.searchYouTube(options, (videoData) => {
+        this.setState((state) => ({
+          videos: videoData,
+          currentVideo: videoData[0],
+        }));
+      });
+    }, 500);
+  }
+
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search/>
+            <Search searchForVideo = {this.searchForVideos.bind(this)}/>
           </div>
         </nav>
         <div className="row">
@@ -54,6 +77,7 @@ class App extends React.Component {
     //props.search is passed from an import of index.js '<App search={searchYouTube}'
     //props.search contains the whole searchYouTube function.
     this.props.searchYouTube(options, (videoData) => {
+      // set state is built in react function
       this.setState((state) => ({
         videos: videoData,
         currentVideo: videoData[0],
