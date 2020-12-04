@@ -1,6 +1,6 @@
 import searchYouTube from '../../src/lib/searchYouTube.js';
 import YOUTUBE_API_KEY from '../../src/config/youtube.js';
-import exampleVideoData from '../../src/data/exampleVideoData.js';
+import {exampleVideoData} from '../../src/data/exampleVideoData.js';
 
 var getURLSearchParams = function(url) {
   return url
@@ -21,18 +21,15 @@ var hasSameShape = function(objectOne, objectTwo) {
   for (var key in objectOne) {
     if (!key in objectTwo) {
       return false;
-      // console.warn('passed 2');
     }
 
     if (typeof objectOne[key] !== typeof objectTwo[key]) {
       return false;
     }
-    // console.warn('passed 3');
 
     if (Object.prototype.toString.call(objectOne[key]) === '[object Object]') {
       return hasSameShape(objectOne[key], objectTwo[key]);
     }
-    // console.warn('passed 4');
   }
 
   return true;
@@ -83,7 +80,8 @@ describe('searchYouTube', function() {
     // We want this test to make a real AJAX request
     xhr.restore();
     searchYouTube(options, (data) => {
-      console.log(data);
+      console.log('data: ' + data);
+      console.log('exampleVideoData: ' + exampleVideoData);
       expect(hasSameShape(data, exampleVideoData)).to.be.true;
       done();
     });

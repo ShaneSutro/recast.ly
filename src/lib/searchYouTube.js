@@ -1,7 +1,6 @@
-
 var searchYouTube = (options, callback) => {
   options.max === undefined ? 5 : options.max;
-  // ajax is sending a requeest to the URL using the GEET method
+  // ajax is sending a request to the URL using the GEET method
   // data: is a object which are our parameters that we are asking for
   $.ajax({
     url: 'https://www.googleapis.com/youtube/v3/search',
@@ -17,9 +16,6 @@ var searchYouTube = (options, callback) => {
       console.error('failed to lookup youtube API', error);
     }
   });
-
 };
-
-
 
 export default searchYouTube;
