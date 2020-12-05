@@ -21,6 +21,28 @@ class App extends React.Component {
     }));
   }
 
+  debounce(func, wait, immediate) {
+    console.log('Debouncing...');
+    var timeout;
+    return function() {
+      var context = this;
+      var args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) {
+          console.log('Calling function');
+          func.apply(context, args);
+        }
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) {
+        func.apply(context, args);
+      }
+    };
+  }
+
   searchForVideos(queryString) {
     console.warn(queryString);
     var options = {
@@ -28,21 +50,12 @@ class App extends React.Component {
       max: 5,
       key: YOUTUBE_API_KEY
     };
-    // this.props.searchYouTube(options, (videoData) => {
-    //   this.setState((state) => ({
-    //     videos: videoData,
-    //     currentVideo: videoData[0],
-    //   }));
-    // });
-    clearTimeout(timedOut);
-    timedOut = setTimeout(() => {
-      this.props.searchYouTube(options, (videoData) => {
-        this.setState((state) => ({
-          videos: videoData,
-          currentVideo: videoData[0],
-        }));
-      });
-    }, 500);
+    this.props.searchYouTube(options, (videoData) => {
+      this.setState((state) => ({
+        videos: videoData,
+        currentVideo: videoData[0],
+      }));
+    });
   }
 
   render() {
@@ -50,7 +63,10 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search searchForVideo = {this.searchForVideos.bind(this)}/>
+            {/* <Search searchForVideo = {this.searchForVideos.bind(this)}/> */}
+            <Search searchForVideo={this.debounce(function (queryString) {
+              this.searchForVideos(queryString);
+            }, 500).bind(this)}/>
           </div>
         </nav>
         <div className="row">
